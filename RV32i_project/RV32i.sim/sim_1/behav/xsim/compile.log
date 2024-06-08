@@ -1,0 +1,38 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Control_Stall.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Control_Stall
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/REG_EXE_MEM.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module REG_EXE_MEM
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Data_Stall.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Data_Stall
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/REG_MEM_WB.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module REG_MEM_WB
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/ALU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Get_rw_regs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Get_rw_regs
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Mux2to1b32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Mux2to1b32
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Controler.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Controler
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Regs.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Regs
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/REG32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module REG32
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/LUI_or_AUIPC.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module LUI_or_AUIPC
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/REG_ID_EXE.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module REG_ID_EXE
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/ID_Zero_Generator.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ID_Zero_Generator
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Mux4to1b32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Mux4to1b32
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/RV32iPCPU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module RV32iPCPU
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/SignExt.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module SignExt
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/REG_IF_ID.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module REG_IF_ID
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/add_32.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module add_32
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Top.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module Top

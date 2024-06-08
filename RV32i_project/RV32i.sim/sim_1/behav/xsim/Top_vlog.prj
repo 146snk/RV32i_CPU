@@ -1,0 +1,27 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../../RV32i_source_code/Control_Stall.v" \
+"../../../../../RV32i_source_code/REG_EXE_MEM.v" \
+"../../../../../RV32i_source_code/Data_Stall.v" \
+"../../../../../RV32i_source_code/REG_MEM_WB.v" \
+"../../../../../RV32i_source_code/ALU.v" \
+"../../../../../RV32i_source_code/Get_rw_regs.v" \
+"../../../../../RV32i_source_code/Mux2to1b32.v" \
+"../../../../../RV32i_source_code/Controler.v" \
+"../../../../../RV32i_source_code/Regs.v" \
+"../../../../../RV32i_source_code/REG32.v" \
+"../../../../../RV32i_source_code/LUI_or_AUIPC.v" \
+"../../../../../RV32i_source_code/REG_ID_EXE.v" \
+"../../../../../RV32i_source_code/ID_Zero_Generator.v" \
+"../../../../../RV32i_source_code/Mux4to1b32.v" \
+"../../../../../RV32i_source_code/RV32iPCPU.v" \
+"../../../../../RV32i_source_code/SignExt.v" \
+"../../../../../RV32i_source_code/REG_IF_ID.v" \
+"../../../../../RV32i_source_code/add_32.v" \
+"../../../../../RV32i_source_code/Top.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
