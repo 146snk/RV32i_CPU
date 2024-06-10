@@ -48,6 +48,9 @@ module RV32iPCPU(
     assign V5 = 1'b1;
     assign N0 = 1'b0;
     
+	wire [31:0] forwarding_ALU_A_out;
+	wire [31:0] forwarding_ALU_B_out;
+	wire [31:0] forwarding_data_out;
     
     wire zero;              // ID
     wire [1:0] branch;      // ID
@@ -108,31 +111,28 @@ module RV32iPCPU(
 	wire [4:0] MEM_WB_written_reg;
 	wire [31:0] MEM_WB_data_in;
    
-   // Stall
-   wire PC_dstall;
-   wire IF_ID_cstall;
-   wire IF_ID_dstall;
-   wire ID_EXE_dstall;
+	// Stall
+	wire PC_dstall;
+	wire IF_ID_cstall;
+	wire IF_ID_dstall;
+	wire ID_EXE_dstall;
    
     data_stall _dstall_ (
-		.IF_ID_written_reg(IF_ID_written_reg),
         .IF_ID_read_reg1(IF_ID_read_reg1),
         .IF_ID_read_reg2(IF_ID_read_reg2),
+		
         .ID_EXE_written_reg(ID_EXE_written_reg),
-		.ID_EXE_read_reg1(ID_EXE_read_reg1),
-        .ID_EXE_read_reg2(ID_EXE_read_reg2),
-		.EXE_MEM_written_reg(EXE_MEM_written_reg),
-		.EXE_MEM_read_reg1(EXE_MEM_read_reg1),
-		.EXE_MEM_read_reg2(EXE_MEM_read_reg2),
+		.ID_EXE_data_to_reg(ID_EXE_data_to_reg),
+
         .PC_dstall(PC_dstall),
         .IF_ID_dstall(IF_ID_dstall),
         .ID_EXE_dstall(ID_EXE_dstall)
-        );
+	);
         
     control_stall _cstall_ (
         .branch(branch[1:0]),
         .IF_ID_cstall(IF_ID_cstall)
-        );
+	);
 
     assign ALU_out = EXE_MEM_ALU_out;
     assign data_out = EXE_MEM_data_out;
@@ -157,27 +157,32 @@ module RV32iPCPU(
         .rst(rst),
         .Q(PC_out[31:0]),
         .PC_dstall(PC_dstall)
-        );
+	);
+		
 	add_32 _add_PC_4_ (				// PC+4
 		.a(PC_out[31:0]),
 		.b(32'b0100),
 		.c(add_PC_4_out[31:0])
-		);
+	);
+	
     add_32 _add_branch_ (
         .a(IF_ID_PC[31:0]),         // use the "PC" from ID stage
         .b(imm_32[31:0]),           // From ID stage
         .c(add_branch_out[31:0])    // actually this part belongs to IF_ID
-        );   
+	);  
+	
     add_32 _add_jal_ (
         .a(IF_ID_PC),               // MIPS: PC+4, RISC-V: PC!!!
         .b({{11{IF_ID_inst_in[31]}}, IF_ID_inst_in[31], IF_ID_inst_in[19:12], IF_ID_inst_in[20], IF_ID_inst_in[30:21], 1'b0}), 
         .c(add_jal_out[31:0])
-        );
+	);
+	
     add_32 _add_jalr_ (
         .a(rd_data_A[31:0]), 
         .b({{20{IF_ID_inst_in[31]}}, IF_ID_inst_in[31:20]}), 
         .c(add_jalr_out[31:0])
-        );
+	);
+	
     Mux4to1b32 _mux5_ (
         .I0(add_PC_4_out[31:0]),   		// From IF stage
         .I1(add_branch_out[31:0]),      // Containing "PC" from ID stage
@@ -185,7 +190,7 @@ module RV32iPCPU(
         .I3(add_jalr_out[31:0]),        // From ID stage
         .s(branch[1:0]),                // From ID
         .o(PC_wb[31:0])
-        );
+	);
 
 
     REG_IF_ID _if_id_ (
@@ -197,7 +202,7 @@ module RV32iPCPU(
         // Output
         .IF_ID_inst_in(IF_ID_inst_in),
         .IF_ID_PC(IF_ID_PC)
-        );
+	);
 
    // ID:-------------------------------------------------------------------------------------------
    // From IF:
@@ -228,7 +233,8 @@ module RV32iPCPU(
         .written_reg(IF_ID_written_reg),
         .read_reg1(IF_ID_read_reg1),
         .read_reg2(IF_ID_read_reg2)
-        );
+	);
+	
     controller  _ctrl_unit_ (
         // Input:
         .OPcode(IF_ID_inst_in[6:0]),
@@ -245,18 +251,20 @@ module RV32iPCPU(
         .reg_write(reg_write),
         .B_H_W(B_H_W),                  // not used yet
         .sign(sign)                     // not used yet
-        );
+	);
 
     Regs _U2_ (.clk(clk),
-             .rst(rst),
-             .L_S(MEM_WB_reg_write),             // From Write-Back stage
-             .rd_addr_A(IF_ID_read_reg1[4:0]),   // ID
-             .rd_addr_B(IF_ID_read_reg2[4:0]),   // ID
-             .wt_addr(MEM_WB_written_reg[4:0]),            // From Write-Back stage
-             .wt_data(wt_data[31:0]),           // From Write-Back stage
-             .rd_data_A(rd_data_A[31:0]),
-             .rd_data_B(rd_data_B[31:0])
-             );
+		.rst(rst),
+		.L_S(MEM_WB_reg_write),             // From Write-Back stage
+		.rd_addr_A(IF_ID_read_reg1[4:0]),   // ID
+		.rd_addr_B(IF_ID_read_reg2[4:0]),   // ID
+		.wt_addr(MEM_WB_written_reg[4:0]),            // From Write-Back stage
+		.wt_data(wt_data[31:0]),           // From Write-Back stage
+		.rd_data_A(rd_data_A[31:0]),
+		.rd_data_B(rd_data_B[31:0])
+    
+	);
+	
     sign_ext _signed_ext_ (.inst_in(IF_ID_inst_in), .imm_32(imm_32));
 
     Mux2to1b32  _alu_source_A_ (
@@ -264,7 +272,7 @@ module RV32iPCPU(
         .I1(imm_32[31:0]),   // not used 
         .s(ALU_src_A),
         .o(ALU_A[31:0])
-        );
+	);
 
     Mux4to1b32  _alu_source_B_ (
         .I0(rd_data_B[31:0]),
@@ -272,9 +280,11 @@ module RV32iPCPU(
         .I2(),
         .I3(),
         .s(ALU_src_B[1:0]),
-        .o(ALU_B[31:0]
-        ));
+        .o(ALU_B[31:0])
+	);
+	
     assign IF_ID_data_out = rd_data_B;
+	
     ID_Zero_Generator _id_zero_ (.A(ALU_A), .B(ALU_B), .ALU_operation(ALU_control), .zero(zero));
 
     REG_ID_EXE _id_exe_ (
@@ -310,7 +320,7 @@ module RV32iPCPU(
         .ID_EXE_reg_write(ID_EXE_reg_write),
         //// For Data Hazard
         .ID_EXE_written_reg(ID_EXE_written_reg), .ID_EXE_read_reg1(ID_EXE_read_reg1), .ID_EXE_read_reg2(ID_EXE_read_reg2)
-        );
+    );
 
     // EXE:-------------------------------------------------------------------------------------------
     // From ID:
@@ -341,15 +351,36 @@ module RV32iPCPU(
     //   7. PC
     // Out:
     //   None
+	
+	forwarding_unit _forwarding_unit_ (
+		.ID_EXE_read_reg1(ID_EXE_read_reg1),
+		.ID_EXE_read_reg2(ID_EXE_read_reg2),
+		.ID_EXE_ALU_A(ID_EXE_ALU_A),
+		.ID_EXE_ALU_B(ID_EXE_ALU_B),
+		.ID_EXE_data_out(ID_EXE_data_out),
+		.ID_EXE_mem_w(ID_EXE_mem_w),
+		
+		.EXE_MEM_reg_write(EXE_MEM_reg_write),
+		.EXE_MEM_written_reg(EXE_MEM_written_reg),
+		.EXE_MEM_ALU_out(EXE_MEM_ALU_out),
+		
+		.MEM_WB_reg_write(MEM_WB_reg_write),
+		.MEM_WB_written_reg(MEM_WB_written_reg),
+		.WB_wt_data(wt_data),
+		
+		.forwarding_ALU_A_out(forwarding_ALU_A_out),
+		.forwarding_ALU_B_out(forwarding_ALU_B_out),
+		.forwarding_data_out(forwarding_data_out)
+	);
 
     ALU _alualu_ (
-        .A(ID_EXE_ALU_A[31:0]),
-        .B(ID_EXE_ALU_B[31:0]),
+        .A(forwarding_ALU_A_out[31:0]),
+        .B(forwarding_ALU_B_out[31:0]),
         .ALU_operation(ID_EXE_ALU_control[4:0]),
         .res(ID_EXE_ALU_out[31:0]),
         .overflow(),
         .zero()
-        ); 
+    ); 
 
     REG_EXE_MEM _exe_mem_ (
         .clk(clk), .rst(rst), .CE(V5),
@@ -358,7 +389,7 @@ module RV32iPCPU(
         .PC(ID_EXE_PC),
         //// To MEM stage
         .ALU_out(ID_EXE_ALU_out),
-        .data_out(ID_EXE_data_out),
+        .data_out(forwarding_data_out),
         .mem_w(ID_EXE_mem_w),
         //// To WB stage
         .data_to_reg(ID_EXE_data_to_reg),
@@ -376,7 +407,7 @@ module RV32iPCPU(
         .EXE_MEM_reg_write(EXE_MEM_reg_write),
         
         .EXE_MEM_written_reg(EXE_MEM_written_reg), .EXE_MEM_read_reg1(EXE_MEM_read_reg1), .EXE_MEM_read_reg2(EXE_MEM_read_reg2)
-        );
+	);
 
     // MEM:-------------------------------------------------------------------------------------------
     // From EXE:
@@ -423,7 +454,7 @@ module RV32iPCPU(
         .MEM_WB_reg_write(MEM_WB_reg_write),
 		.MEM_WB_written_reg(MEM_WB_written_reg),
         .MEM_WB_data_in(MEM_WB_data_in)
-        );
+	);
 
     // WB:-------------------------------------------------------------------------------------------
     // From EXE:
@@ -440,7 +471,8 @@ module RV32iPCPU(
         .inst_in(MEM_WB_inst_in[31:0]),
         .PC(MEM_WB_PC),
         .data(LoA_data[31:0])
-        );
+	);
+	
     Mux4to1b32  _mux3_ (
         .I0(MEM_WB_ALU_out[31:0]),          // Others
         .I1(MEM_WB_data_in[31:0]),          // Load

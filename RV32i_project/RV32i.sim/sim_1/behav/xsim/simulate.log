@@ -1,4 +1,4 @@
 Time resolution is 1 ps
-Simulation cycle count:                  850
+Simulation cycle count:                  100
 
-$stop called at time : 1700 ps : File "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Top.v" Line 89
+$stop called at time : 200 ps : File "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Top.v" Line 89

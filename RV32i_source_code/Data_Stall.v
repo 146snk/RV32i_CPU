@@ -21,15 +21,11 @@
 
 
 module data_stall(
-        input [4:0] IF_ID_written_reg,
         input [4:0] IF_ID_read_reg1,
         input [4:0] IF_ID_read_reg2,
+		
         input [4:0] ID_EXE_written_reg,
-        input [4:0] ID_EXE_read_reg1,
-        input [4:0] ID_EXE_read_reg2,
-        input [4:0] EXE_MEM_written_reg,
-        input [4:0] EXE_MEM_read_reg1,
-        input [4:0] EXE_MEM_read_reg2,
+		input [1:0] ID_EXE_data_to_reg,
         
         output reg PC_dstall,
         output reg IF_ID_dstall,
@@ -39,12 +35,7 @@ module data_stall(
         PC_dstall = 0;
         IF_ID_dstall = 0;
         ID_EXE_dstall = 0;
-        if (ID_EXE_written_reg != 0 && (ID_EXE_written_reg == IF_ID_read_reg1 || ID_EXE_written_reg == IF_ID_read_reg2)) begin
-                PC_dstall = 1;
-                IF_ID_dstall = 1;
-                ID_EXE_dstall = 1;
-        end
-        else if (EXE_MEM_written_reg != 0 && (EXE_MEM_written_reg == IF_ID_read_reg1 || EXE_MEM_written_reg == IF_ID_read_reg2)) begin
+        if (ID_EXE_data_to_reg == 2'b01 && ID_EXE_written_reg != 0 && (ID_EXE_written_reg == IF_ID_read_reg1 || ID_EXE_written_reg == IF_ID_read_reg2)) begin
                 PC_dstall = 1;
                 IF_ID_dstall = 1;
                 ID_EXE_dstall = 1;
