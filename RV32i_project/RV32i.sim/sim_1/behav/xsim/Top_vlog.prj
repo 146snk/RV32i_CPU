@@ -7,18 +7,19 @@ verilog xil_defaultlib  \
 "../../../../../RV32i_source_code/Regs.v" \
 "../../../../../RV32i_source_code/LUI_or_AUIPC.v" \
 "../../../../../RV32i_source_code/REG_ID_EXE.v" \
-"../../../../../RV32i_source_code/ID_Zero_Generator.v" \
 "../../../../../RV32i_source_code/Mux4to1b32.v" \
 "../../../../../RV32i_source_code/RV32iPCPU.v" \
 "../../../../../RV32i_source_code/REG_IF_ID.v" \
 "../../../../../RV32i_source_code/add_32.v" \
 "../../../../../RV32i_source_code/REG32.v" \
 "../../../../../RV32i_source_code/controller.v" \
-"../../../../../RV32i_source_code/get_rw_regs.v" \
-"../../../../../RV32i_source_code/control_stall.v" \
+"../../../../../RV32i_source_code/Get_rw_regs.v" \
+"../../../../../RV32i_source_code/Control_Stall.v" \
 "../../../../../RV32i_source_code/sign_ext.v" \
-"../../../../../RV32i_source_code/data_stall.v" \
+"../../../../../RV32i_source_code/Data_Stall.v" \
 "../../../../../RV32i_source_code/forwarding_unit.v" \
+"../../../../../RV32i_source_code/next_PC.v" \
+"../../../../../RV32i_source_code/branch_verification.v" \
 "../../../../../RV32i_source_code/Top.v" \
 
 # compile glbl module
