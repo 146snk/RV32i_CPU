@@ -24,7 +24,6 @@ module controller(
 		input [6:0] OPcode,
 		input [2:0] Fun1,
 		input [6:0] Fun2,
-		input wire zero,
 		output reg ALU_src_A,
 		output reg [1:0] ALU_src_B,
 		output reg [1:0] data_to_reg,
@@ -157,31 +156,20 @@ module controller(
 			    endcase
 			end
 			7'b1100011: begin	// Branch
+				branch = 2'b01;
 			    case (Fun1)
-			        3'b000: begin // BEQ
+			        3'b000: // BEQ
 			            ALU_control = 5'b00011; 
-			            branch = {1'b0, zero};
-			        end 
-			        3'b001: begin // BNE
+			        3'b001: // BNE
 			            ALU_control = 5'b00011;
-			            branch = {1'b0, ~zero};
-			        end
-			        3'b100: begin // BLT
+			        3'b100: // BLT
 			            ALU_control = 5'b00101;
-			            branch = {1'b0, zero};
-			        end
-			        3'b101: begin // BGE
+			        3'b101: // BGE
 			            ALU_control = 5'b01010;
-			            branch = {1'b0, zero};
-			        end
-			        3'b110: begin // BLTU
+			        3'b110: // BLTU
 			            ALU_control = 5'b00110;
-			            branch = {1'b0, zero}; 
-			        end
-			        3'b111: begin // BGEU
+			        3'b111: // BGEU
 			            ALU_control = 5'b01011;
-			            branch = {1'b0, zero};
-			        end
 			    endcase
 			end
 			7'b1101111: begin	// jal

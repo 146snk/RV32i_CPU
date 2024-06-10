@@ -12,8 +12,6 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_so
 INFO: [VRFC 10-311] analyzing module LUI_or_AUIPC
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/REG_ID_EXE.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module REG_ID_EXE
-INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/ID_Zero_Generator.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module ID_Zero_Generator
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Mux4to1b32.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Mux4to1b32
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/RV32iPCPU.v" into library xil_defaultlib
@@ -36,5 +34,9 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_so
 INFO: [VRFC 10-311] analyzing module data_stall
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/forwarding_unit.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module forwarding_unit
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/next_PC.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module next_PC
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/branch_verification.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module branch_verification
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Top

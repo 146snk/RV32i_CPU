@@ -36,8 +36,8 @@ module forwarding_unit(
 		input [4:0] MEM_WB_written_reg,
 		input [31:0] WB_wt_data,
 		
-		output reg [31:0] forwarding_ALU_A_out,
-		output reg [31:0] forwarding_ALU_B_out,
+		output reg [31:0] forwarding_ALU_A,
+		output reg [31:0] forwarding_ALU_B,
 		output reg [31:0] forwarding_data_out
     );
 	
@@ -47,8 +47,8 @@ module forwarding_unit(
 	
 	always @(*)begin
 		// Default no forwarding
-		forwarding_ALU_A_out = ID_EXE_ALU_A;
-		forwarding_ALU_B_out = ID_EXE_ALU_B;
+		forwarding_ALU_A = ID_EXE_ALU_A;
+		forwarding_ALU_B = ID_EXE_ALU_B;
 		forwarding_data_out = ID_EXE_data_out;
 		
 		forwarding_flag_A=0;
@@ -58,13 +58,13 @@ module forwarding_unit(
 		/// forwarding EXE_MEM -> EXE
 		if (EXE_MEM_reg_write == 1'b1 && EXE_MEM_written_reg != 0 && 
 		  EXE_MEM_written_reg == ID_EXE_read_reg1) begin
-			forwarding_ALU_A_out = EXE_MEM_ALU_out;
+			forwarding_ALU_A = EXE_MEM_ALU_out;
 			forwarding_flag_A=1;
 		end
 		/// forwarding MEM_WB -> EXE
 		else if (MEM_WB_reg_write == 1'b1 && MEM_WB_written_reg != 0 && 
 		  MEM_WB_written_reg == ID_EXE_read_reg1) begin
-			forwarding_ALU_A_out = WB_wt_data;
+			forwarding_ALU_A = WB_wt_data;
 			forwarding_flag_A=1;
 		end	
 		// forwarding for read2
@@ -72,7 +72,7 @@ module forwarding_unit(
 		if (EXE_MEM_reg_write == 1'b1 && EXE_MEM_written_reg != 0 && 
 		  EXE_MEM_written_reg == ID_EXE_read_reg2) begin
 			if (ID_EXE_mem_w == 0) begin // ~sw
-				forwarding_ALU_B_out = EXE_MEM_ALU_out;
+				forwarding_ALU_B = EXE_MEM_ALU_out;
 				forwarding_flag_B=1;
 			end
 			else begin // sw
@@ -84,7 +84,7 @@ module forwarding_unit(
 		else if (MEM_WB_reg_write == 1'b1 && MEM_WB_written_reg != 0 && 
 		  MEM_WB_written_reg == ID_EXE_read_reg2)
 			if (ID_EXE_mem_w == 0) begin // ~sw
-				forwarding_ALU_B_out = WB_wt_data;
+				forwarding_ALU_B = WB_wt_data;
 				forwarding_flag_B=1;
 			end
 			else begin // sw
