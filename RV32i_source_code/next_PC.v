@@ -27,9 +27,11 @@ module next_PC(
     input [31:0] add_branch_out,
     input [31:0] add_jal_out,
     input [31:0] add_jalr_out,
+	input [31:0] PC_out,
     // control signal
     input misprediction,
     input [1:0] branch,
+	input prediction,
     // PC output
     output reg [31:0] next_PC,
     output reg [31:0] fallback_PC
@@ -43,10 +45,15 @@ module next_PC(
 			// non flow ctrl inst
 			2'b00: next_PC = add_PC_4_out;
 			// branch
-			2'b01: begin
-				next_PC = add_PC_4_out;
-				fallback_PC = add_branch_out;
-			end
+			2'b01: 
+				if (prediction == 0) begin	// predict NT
+					next_PC = add_PC_4_out;
+					fallback_PC = add_branch_out;
+				end
+				else begin					// predict T
+					next_PC = add_branch_out;
+					fallback_PC = PC_out;
+				end
 			// jal
 			2'b10: next_PC = add_jal_out;
 			// jalr

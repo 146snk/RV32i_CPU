@@ -21,6 +21,7 @@ Compiling module xil_defaultlib.Regs
 Compiling module xil_defaultlib.sign_ext
 Compiling module xil_defaultlib.Mux2to1b32
 Compiling module xil_defaultlib.Mux4to1b32
+Compiling module xil_defaultlib.branch_predictor
 Compiling module xil_defaultlib.REG_ID_EXE
 Compiling module xil_defaultlib.forwarding_unit
 Compiling module xil_defaultlib.ALU

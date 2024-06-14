@@ -24,6 +24,7 @@ module branch_verification(
     input [1:0] branch,
     input [2:0] Fun1,
     input zero,
+	input prediction,
     
     output reg taken,
     output reg misprediction
@@ -44,8 +45,11 @@ module branch_verification(
 				3'b111: // BGEU
 					taken = zero;
 			endcase
-			misprediction = taken;
+			misprediction = prediction ^ taken;
 		end
-		else misprediction = 0;
+		else begin
+			taken = 0;
+			misprediction = 0;
+		end
 	end
 endmodule

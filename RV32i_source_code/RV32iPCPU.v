@@ -58,11 +58,10 @@ module RV32iPCPU(
 	
 	// branch_prediction
 	wire [31:0] fallback_PC;
-    wire [31:0] ID_EXE_fallback_PC;
-	wire [1:0] ID_EXE_branch;
 	wire misprediction;
 	wire IF_ID_cstall;
 	wire ID_EXE_cstall;
+	wire prediction;
 	
     wire zero;              // ID
     wire [1:0] branch;      // ID
@@ -99,6 +98,10 @@ module RV32iPCPU(
     wire [4:0] ID_EXE_written_reg;
     wire [4:0] ID_EXE_read_reg1;
     wire [4:0] ID_EXE_read_reg2;
+	
+	wire [1:0] ID_EXE_branch;
+	wire [31:0] ID_EXE_fallback_PC;
+	wire ID_EXE_prediction;
     
     wire [31:0] ID_EXE_ALU_out;
 
@@ -139,6 +142,7 @@ module RV32iPCPU(
         .branch(branch[1:0]),
 		.ID_EXE_branch(ID_EXE_branch[1:0]),
 		.misprediction(misprediction),
+		.prediction(prediction),
 		
         .IF_ID_cstall(IF_ID_cstall),
 		.ID_EXE_cstall(ID_EXE_cstall)
@@ -200,9 +204,11 @@ module RV32iPCPU(
 		.add_branch_out(add_branch_out[31:0]),		// Containing "PC" from ID stage
 		.add_jal_out(add_jal_out[31:0]),			// From ID stage
 		.add_jalr_out(add_jalr_out[31:0]),			// From ID stage
+		.PC_out(PC_out),							// From IF stage
 		// control signal
 		.misprediction(misprediction),				// From EX
 		.branch(branch[1:0]),						// From ID
+		.prediction(prediction),					// From ID
 		// PC output
 		.next_PC(PC_wb[31:0]),
 		.fallback_PC(fallback_PC[31:0])
@@ -276,7 +282,6 @@ module RV32iPCPU(
 		.wt_data(wt_data[31:0]),           // From Write-Back stage
 		.rd_data_A(rd_data_A[31:0]),
 		.rd_data_B(rd_data_B[31:0])
-    
 	);
 	
     sign_ext _signed_ext_ (.inst_in(IF_ID_inst_in), .imm_32(imm_32));
@@ -299,6 +304,9 @@ module RV32iPCPU(
 	
     assign IF_ID_data_out = rd_data_B;
 	
+	branch_predictor _branch_predictor_ (
+		.prediction(prediction)
+	);
 
     REG_ID_EXE _id_exe_ (
         .clk(clk), .rst(rst), .CE(V5), .ID_EXE_dstall(ID_EXE_dstall), .ID_EXE_cstall(ID_EXE_cstall),
@@ -323,6 +331,7 @@ module RV32iPCPU(
         //// For branch prediction
 		.fallback_PC(fallback_PC),
 		.branch(branch),
+		.prediction(prediction),
 		
         // Output
         .ID_EXE_inst_in(ID_EXE_inst_in),
@@ -340,7 +349,8 @@ module RV32iPCPU(
 		.ID_EXE_read_reg2(ID_EXE_read_reg2),
 		//// For branch prediction
 		.ID_EXE_fallback_PC(ID_EXE_fallback_PC),
-		.ID_EXE_branch(ID_EXE_branch)
+		.ID_EXE_branch(ID_EXE_branch),
+		.ID_EXE_prediction(ID_EXE_prediction)
 	);
 
     // EXE:-------------------------------------------------------------------------------------------
@@ -408,6 +418,7 @@ module RV32iPCPU(
 		.branch(ID_EXE_branch[1:0]),
 		.Fun1(ID_EXE_inst_in[14:12]),
 		.zero(zero),
+		.prediction(ID_EXE_prediction),
 		// output
 		.taken(taken),
 		.misprediction(misprediction)
