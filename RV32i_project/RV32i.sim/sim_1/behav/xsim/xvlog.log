@@ -40,5 +40,7 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_so
 INFO: [VRFC 10-311] analyzing module branch_verification
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/branch_predictor.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module branch_predictor
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/saturating_counter_2bit.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module saturating_counter_2bit
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/RISCV_project/RV32i_CPU/RV32i_source_code/Top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module Top

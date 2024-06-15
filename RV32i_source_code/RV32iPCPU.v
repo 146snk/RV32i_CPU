@@ -305,6 +305,9 @@ module RV32iPCPU(
     assign IF_ID_data_out = rd_data_B;
 	
 	branch_predictor _branch_predictor_ (
+		.clk(clk), .rst(rst),
+		.ID_EXE_branch(ID_EXE_branch),
+		.taken(taken),
 		.prediction(prediction)
 	);
 

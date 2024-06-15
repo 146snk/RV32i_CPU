@@ -21,6 +21,7 @@ verilog xil_defaultlib  \
 "../../../../../RV32i_source_code/next_PC.v" \
 "../../../../../RV32i_source_code/branch_verification.v" \
 "../../../../../RV32i_source_code/branch_predictor.v" \
+"../../../../../RV32i_source_code/saturating_counter_2bit.v" \
 "../../../../../RV32i_source_code/Top.v" \
 
 # compile glbl module
